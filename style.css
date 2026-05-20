@@ -1,0 +1,298 @@
+/* Kanistra MainWorks - простой сайт в старом стиле */
+
+body {
+    background-color: #ede0c8;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect width='40' height='40' fill='%23ede0c8'/><rect width='1' height='1' x='10' y='10' fill='%23d4c4a8'/><rect width='1' height='1' x='25' y='30' fill='%23d4c4a8'/><rect width='1' height='1' x='35' y='15' fill='%23d4c4a8'/></svg>");
+    color: #2c1810;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper {
+    width: 780px;
+    margin: 20px auto;
+    background-color: #f4ecd8;
+    border: 2px solid #5a2020;
+    padding: 0;
+}
+
+#header {
+    background-color: #7a1f1f;
+    color: #f4ecd8;
+    border-bottom: 4px double #c9a96e;
+    padding: 14px 20px;
+    text-align: center;
+}
+
+#header h1 {
+    font-family: "Courier New", monospace;
+    font-size: 28px;
+    letter-spacing: 3px;
+    margin: 0;
+    text-transform: uppercase;
+    color: #f4ecd8;
+}
+
+#header .subtitle {
+    font-size: 12px;
+    font-style: italic;
+    color: #e0c896;
+    margin-top: 4px;
+}
+
+#nav {
+    background-color: #5a1414;
+    border-bottom: 2px solid #2c1810;
+    padding: 6px 0;
+    text-align: center;
+}
+
+#nav a {
+    color: #f4ecd8;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 4px 14px;
+    border-right: 1px solid #8b2a2a;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#nav a:last-child {
+    border-right: none;
+}
+
+#nav a:hover {
+    color: #ffcc66;
+    text-decoration: underline;
+}
+
+#nav a.current {
+    color: #ffcc66;
+}
+
+#content {
+    padding: 20px 24px;
+    min-height: 400px;
+}
+
+#content h2 {
+    color: #7a1f1f;
+    border-bottom: 1px solid #7a1f1f;
+    padding-bottom: 4px;
+    font-size: 20px;
+    margin-top: 0;
+    font-variant: small-caps;
+}
+
+#content h3 {
+    color: #5a1414;
+    font-size: 16px;
+    margin-top: 18px;
+    margin-bottom: 6px;
+    border-left: 4px solid #7a1f1f;
+    padding-left: 8px;
+}
+
+#content p {
+    margin: 8px 0;
+    text-align: justify;
+}
+
+#content a {
+    color: #7a1f1f;
+    text-decoration: underline;
+}
+
+#content a:visited {
+    color: #5a1414;
+}
+
+#content a:hover {
+    color: #b8860b;
+    background-color: #f0e0c0;
+}
+
+#content ul, #content ol {
+    margin: 8px 0;
+    padding-left: 24px;
+}
+
+#content li {
+    margin: 4px 0;
+}
+
+.news-item {
+    border: 1px solid #c9a96e;
+    background-color: #faf3e0;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+}
+
+.news-item .news-date {
+    font-size: 11px;
+    color: #5a1414;
+    font-weight: bold;
+    font-family: "Courier New", monospace;
+    border-bottom: 1px dotted #c9a96e;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+}
+
+.news-item h3 {
+    margin-top: 0;
+    border: none;
+    padding-left: 0;
+}
+
+.character-card {
+    border: 1px solid #7a1f1f;
+    background-color: #faf3e0;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+}
+
+.character-card h3 {
+    border: none;
+    padding: 0;
+    margin: 0 0 6px 0;
+    color: #7a1f1f;
+    font-size: 18px;
+}
+
+.character-card .char-tag {
+    font-size: 11px;
+    color: #5a1414;
+    font-family: "Courier New", monospace;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+table.info {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    background-color: #faf3e0;
+}
+
+table.info th {
+    background-color: #7a1f1f;
+    color: #f4ecd8;
+    padding: 6px 10px;
+    text-align: left;
+    border: 1px solid #5a1414;
+}
+
+table.info td {
+    padding: 6px 10px;
+    border: 1px solid #c9a96e;
+}
+
+table.info tr:nth-child(even) td {
+    background-color: #ede0c8;
+}
+
+.download-box {
+    border: 2px solid #7a1f1f;
+    background-color: #faf3e0;
+    padding: 16px;
+    margin: 14px 0;
+    text-align: center;
+}
+
+.download-box h3 {
+    margin-top: 0;
+    border: none;
+    padding: 0;
+}
+
+.download-box .status {
+    font-size: 12px;
+    color: #5a1414;
+    font-family: "Courier New", monospace;
+}
+
+.button-link {
+    display: inline-block;
+    background-color: #7a1f1f;
+    color: #f4ecd8 !important;
+    padding: 6px 18px;
+    text-decoration: none !important;
+    border: 1px solid #2c1810;
+    margin: 8px 4px;
+    font-weight: bold;
+    font-variant: small-caps;
+    letter-spacing: 1px;
+}
+
+.button-link:hover {
+    background-color: #5a1414;
+    color: #ffcc66 !important;
+}
+
+.button-link.disabled {
+    background-color: #8a7a5a;
+    color: #d4c4a8 !important;
+    cursor: not-allowed;
+}
+
+.callout {
+    border-left: 4px solid #7a1f1f;
+    background-color: #faf3e0;
+    padding: 8px 14px;
+    margin: 10px 0;
+    font-style: italic;
+}
+
+#footer {
+    background-color: #5a1414;
+    color: #d4c4a8;
+    border-top: 4px double #c9a96e;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 11px;
+}
+
+#footer a {
+    color: #ffcc66;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    text-align: center;
+    color: #7a1f1f;
+    margin: 14px 0;
+    font-family: "Courier New", monospace;
+    letter-spacing: 4px;
+}
+
+hr {
+    border: none;
+    border-top: 1px dashed #7a1f1f;
+    margin: 16px 0;
+}
+
+.poll-result {
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    background-color: #ede0c8;
+    border: 1px solid #c9a96e;
+    padding: 8px 12px;
+    margin: 8px 0;
+}
+
+.poll-bar {
+    display: inline-block;
+    background-color: #7a1f1f;
+    color: #f4ecd8;
+    padding: 0 4px;
+    height: 14px;
+    vertical-align: middle;
+}
