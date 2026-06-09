@@ -1,0 +1,7 @@
+bin/
+obj/
+*.user
+.vs/
+Content/bin/
+Content/obj/
+.mgstats
