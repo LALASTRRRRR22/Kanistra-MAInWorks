@@ -549,7 +549,7 @@ class GameEngine:
 
             turn_consumed = False
 
-            # Movement
+            # ── Movement (WASD + Arrow keys) ──────────────
             if key in (ord('w'), curses.KEY_UP):
                 turn_consumed = self._try_move_player(0, -1)
             elif key in (ord('s'), curses.KEY_DOWN):
@@ -558,19 +558,19 @@ class GameEngine:
                 turn_consumed = self._try_move_player(-1, 0)
             elif key in (ord('d'), curses.KEY_RIGHT):
                 turn_consumed = self._try_move_player(1, 0)
-            # Diagonal movement
-            elif key == curses.KEY_HOME or key == ord('7'):
+            # Diagonal movement (numpad or HOME/END/PGUP/PGDN)
+            elif key in (curses.KEY_HOME, ord('y')):
                 turn_consumed = self._try_move_player(-1, -1)
-            elif key == curses.KEY_PPAGE or key == ord('9'):
+            elif key in (curses.KEY_PPAGE, ord('u')):
                 turn_consumed = self._try_move_player(1, -1)
-            elif key == curses.KEY_END or key == ord('1'):
+            elif key in (curses.KEY_END, ord('b')):
                 turn_consumed = self._try_move_player(-1, 1)
-            elif key == curses.KEY_NPAGE or key == ord('3'):
+            elif key in (curses.KEY_NPAGE, ord('n')):
                 turn_consumed = self._try_move_player(1, 1)
-            # Wait
-            elif key in (ord('.'), curses.KEY_B2, ord('5')):
+            # Wait (. or space or numpad-5)
+            elif key in (ord('.'), ord(' '), curses.KEY_B2):
                 turn_consumed = True
-            # Skills 1-4
+            # ── Skills (1-4) ──────────────────────────────
             elif key == ord('1'):
                 self._use_skill(0)
                 turn_consumed = True
@@ -583,6 +583,7 @@ class GameEngine:
             elif key == ord('4'):
                 self._use_skill(3)
                 turn_consumed = True
+            # ── Actions ───────────────────────────────────
             # Inventory
             elif key == ord('i'):
                 self._show_inventory()
@@ -591,14 +592,18 @@ class GameEngine:
             elif key == ord('g'):
                 self._pick_up_item()
                 turn_consumed = True
-            # Descend
+            # Descend stairs
             elif key == ord('>'):
                 self._descend()
                 turn_consumed = True
-            # Ascend
+            # Ascend stairs
             elif key == ord('<'):
                 self._ascend()
                 turn_consumed = True
+            # Interact / examine
+            elif key == ord('e'):
+                self._interact()
+                turn_consumed = False
             # Target cycle
             elif key == ord('\t'):
                 self._cycle_target()
@@ -630,37 +635,60 @@ class GameEngine:
 
         self.renderer.render(state)
 
+    def _interact(self) -> None:
+        """Interact with the tile / object under the player."""
+        state = self.state
+        p = state.player
+        tile = state.floor.at(p.x, p.y)
+        if tile.char == TILE_CHARS["stairs_down"]:
+            self.log("Press '>' to descend the stairs.")
+        elif tile.char == TILE_CHARS["stairs_up"]:
+            self.log("Press '<' to ascend the stairs.")
+        elif tile.char == TILE_CHARS["shop"]:
+            self._enter_shop()
+        else:
+            # look for items
+            here = [fi for fi in state.floor_items if fi.x == p.x and fi.y == p.y]
+            if here:
+                names = ", ".join(fi.item.name for fi in here)
+                self.log(f"You see here: {names}. Press 'g' to pick up.")
+            else:
+                self.log("Nothing interesting here.")
+
     def _confirm_quit(self) -> bool:
-        h, w = self.stdscr.getmaxyx()
-        msg = "Quit game? [Y/N]"
-        self.renderer.safe_addstr_center(h // 2, msg, curses.A_BOLD) if hasattr(
-            self.renderer, "safe_addstr_center") else None
         from ui import safe_addstr
+        h, w = self.stdscr.getmaxyx()
+        msg = "  Quit game? [Y/N]  "
         safe_addstr(self.stdscr, h // 2, w // 2 - len(msg) // 2, msg,
-                    curses.A_BOLD)
+                    curses.A_BOLD | curses.A_REVERSE)
         self.stdscr.refresh()
         key = self.stdscr.getch()
         return key in (ord('y'), ord('Y'))
 
     def _show_help(self) -> None:
         lines = [
-            "WASD / Arrow keys : Move / Attack (bump)",
-            "1-4               : Use skills",
-            "i                 : Open inventory",
+            "WASD / Arrow keys : Move / Attack (bump into enemy)",
+            "y u b n           : Diagonal movement",
+            "1-4               : Use skills (costs mana)",
+            "i                 : Open inventory (a-z to use/equip)",
             "g                 : Pick up item",
+            "e                 : Interact (stairs/shop/examine)",
             ">                 : Descend stairs",
             "<                 : Ascend stairs",
-            "TAB               : Cycle targets",
-            "L                 : Spend stat points",
+            "TAB               : Cycle visible targets",
+            "L                 : Spend stat points (after level up)",
             "S                 : Save game",
-            ".                 : Wait one turn",
-            "q / Q             : Quit",
+            ". / SPACE         : Wait one turn",
+            "q / Q             : Quit game",
             "",
-            "Bump into enemies to attack them.",
-            "Skills use mana (MP). Cooldowns shown in brackets.",
-            "Find the Demon Lord on floor 15 to win!",
+            "TIPS:",
+            "  Bump into enemies to attack them.",
+            "  Skills auto-target nearest visible enemy.",
+            "  Gold is auto-collected when you step on it.",
+            "  Visit floor 5, 10, 15 shops for gear.",
+            "  Defeat the Demon Lord on floor 15 to WIN!",
         ]
-        self.renderer.draw_message_box("HELP", lines, "UI")
+        self.renderer.draw_message_box("HELP & CONTROLS", lines, "UI")
 
 
 # ─────────────────────────────────────────────

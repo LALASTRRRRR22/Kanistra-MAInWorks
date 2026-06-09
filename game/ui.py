@@ -418,7 +418,7 @@ class Renderer:
 
     # ── Controls hint ────────────────────────
     def draw_controls(self) -> None:
-        hints = "WASD/←↑↓→:Move  1-4:Skills  i:Inv  g:Pickup  >:Descend  q:Quit"
+        hints = "WASD/←↑↓→:Move  1-4:Skills  i:Inv  g:Pickup  e:Interact  >/<:Stairs  TAB:Target  ?:Help  q:Quit"
         safe_addstr(self.stdscr, self.height - 1, 0,
                     hints[:self.width - 1], color("UI") | curses.A_DIM)
 
