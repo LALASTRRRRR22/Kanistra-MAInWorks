@@ -279,13 +279,38 @@ class DungeonFloor:
                         self.enemy_spawns.append((x, y, key))
                         break
 
-        # Place boss in last room
+        # Place boss in a dedicated room (second-to-last to avoid shop/stairs clash)
         if boss_keys:
             bkey = boss_keys[0]
-            broom = self.rooms[-1]
+            # Pick the room farthest from player start that isn't the very last (shop) room
+            if len(self.rooms) >= 3:
+                boss_room_candidates = self.rooms[-(3):] if self.is_shop_floor else self.rooms[-2:]
+                # choose the room with center NOT at stairs_down
+                broom = None
+                for candidate in reversed(boss_room_candidates):
+                    cx, cy = self._room_center(candidate)
+                    if (cx, cy) != self.stairs_down and (cx, cy) != self.player_start:
+                        broom = candidate
+                        break
+                if broom is None:
+                    broom = self.rooms[len(self.rooms) // 2]
+            elif len(self.rooms) >= 2:
+                broom = self.rooms[-1]
+            else:
+                broom = self.rooms[0]
+
+            # Try placing boss at center, then random spots
+            placed = False
             bx, by = self._room_center(broom)
             if not self._occupied(bx, by):
                 self.enemy_spawns.append((bx, by, bkey))
+                placed = True
+            if not placed:
+                for _try in range(20):
+                    bx, by = self._random_floor_in_room(broom)
+                    if not self._occupied(bx, by):
+                        self.enemy_spawns.append((bx, by, bkey))
+                        break
 
         # Items: scattered randomly
         n_items = 3 + fn // 2
